@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informazioni Chef</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .container {
+            margin-top: 40px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chef-info {
+            background-color: #fff;
+            padding: 20px;
+
+        }
+
+        .chef-info p {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .chef-info p span {
+            font-weight: bold;
+        }
+
+        .chef-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* Spazio inferiore */
+        }
+
+        .recipe-container {
+            margin-top: 30px;
+            display: block;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Utilizza una griglia con colonne auto-adattive */
+            grid-gap: 20px; /* Spazio tra le card */
+        }
+
+        .recipe-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            width: 700px;
+            margin:auto;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-card img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .recipe-card .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .recipe-card .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+.recipe-card .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.2s;
+    width: 40%;
+    padding: 10px 20px; /* Aggiunge spazio intorno al testo */
+    font-size: 1.2rem; /* Aumenta la dimensione del testo */
+}
+
+.recipe-card .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+        .info-table {
+            margin-top: 20px;
+        }
+
+        /* Stile per le righe della tabella */
+        .info-row {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        /* Stile per il titolo delle colonne */
+        .info-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="/#">
+        <img src="/images/logo.png" width="400" height="70" class="d-inline-block align-top" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+		<div style="margin:auto; position: absolute; right:420px;">
+        <span th:if="${#request.userPrincipal}">
+            Utente: <span th:text="${#request.userPrincipal.name}"></span>
+        </span>
+        </div>
+
+        <form action="/public/filterRecipes" method="get" class="form-inline ml-auto">
+            <input class="form-control mr-sm-2" type="text" id="name" name="name" placeholder="Cerca la tua ricetta!" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filtra</button>
+        </form>
+
+        <div class="navbar-text">
+            <span th:if="${#request.userPrincipal}">
+                <a class="nav-link" href="/public/logout">Logout</a>
+            </span>
+            <span th:unless="${#request.userPrincipal}">
+                <a class="nav-link" href="/public/login">Login</a>
+            </span>
+        </div>
+    </div>
+</nav>
+
+    <div class="container">
+        <div th:if="${chef}">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+    <div class="chef-image text-center">
+        <img th:if="${base64Image}" th:src="'data:image/jpeg;base64,' + ${base64Image}"
+            alt="Foto dello chef" class="img-fluid rounded">
+        <img th:unless="${base64Image}" src="/images/no-foto.jpg" alt="Foto non disponibile"
+            class="img-fluid rounded">
+    </div>
+</div>
+
+                <div class="col-md-8 mb-4">
+                    <div class="chef-info bg-white p-4 ">
+                        <h1 class="mb-4 text-center">Informazioni Chef</h1>
+                        <div class="info-table">
+                            <div class="info-row">
+                                <div class="col-md-4 info-label">Nome:</div>
+                                <div class="col-md-8" th:text="${#strings.capitalize(chef.name)}"></div>
+                            </div>
+                            <div class="info-row">
+                                <div class="col-md-4 info-label">Cognome:</div>
+                                <div class="col-md-8" th:text="${#strings.capitalize(chef.surname)}"></div>
+                            </div>
+                            <div class="info-row">
+    <div class="col-md-4 info-label">Data di nascita:</div>
+    <div class="col-md-8" th:if="${chef.dateOfBirth}">
+        <span th:text="${#temporals.format(chef.dateOfBirth, 'dd/MM/yyyy')}"></span>
+    </div>
+    <div class="col-md-8" th:unless="${chef.dateOfBirth}">
+        Non definita
+    </div>
+</div>
+
+                            <!-- Aggiungi altri campi delle informazioni dello chef qui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h2 class="mb-4 text-center">Ricette dello Chef</h2>
+                    <div th:if="${recipes==null || recipes.isEmpty()}" class="alert alert-warning text-center"  style="width: 400px; text-align: center; margin:auto;" role="alert">Non ci sono ricette per questo chef</div>
+                    <div class="recipe-container">
+                        <div th:each="recipe : ${recipes}" class="card recipe-card mb-5">
+                            <img th:src="'data:image/jpeg;base64,' + ${recipeFirstImages[recipe.id]}" class="card-img-top"
+                                alt="Immagine ricetta">
+                            <div class="card-body">
+                                <h5 class="card-title text-center mb-3" th:text="${recipe.name}"></h5>
+                                <a th:href="@{'/public/recipe/' + ${recipe.id}}" class="btn btn-primary btn-sm">Vedi
+                                    Ricetta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:unless="${chef}" class="alert alert-warning mt-4">
+            <p class="mb-0 text-center">Chef non trovato.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript e Bootstrap bundle (inclusi con i componenti Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRpvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-q8buF/zvyxbiVezFsqf3X0m0Pq0h8JHLCm/R/wqBZ3UJfxCAks7P9m2tWBEUO2+l"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiwMovie - Registrazione conclusa</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 100px auto;
+            padding: 20px;
+            border: solid #4b4b4b 2px;
+            border-radius: 8px;
+            background-color: #fff;
+            width: 85%; /* Leggermente più stretto rispetto a prima */
+            max-width: 400px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 17px 15px 21px -7px rgba(0, 0, 0, 0.75);
+        }
+        
+        h1{
+            margin:auto;
+            margin-bottom: 35px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+            margin: auto;
+            margin-top: 45px;
+        }
+        
+        .table{
+			margin:auto;
+			width: 350px;
+			margin-top: 5px;
+		}
+    </style>
+</head>
+
+<body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="/#">
+        <img src="/images/logo.png" width="400" height="70" class="d-inline-block align-top" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+		<div style="margin:auto; position: absolute; right:420px;">
+        <span th:if="${#request.userPrincipal}">
+            Utente: <span th:text="${#request.userPrincipal.name}"></span>
+        </span>
+        </div>
+
+        <form action="/public/filterRecipes" method="get" class="form-inline ml-auto">
+            <input class="form-control mr-sm-2" type="text" id="name" name="name" placeholder="Cerca la tua ricetta!" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filtra</button>
+        </form>
+
+        <div class="navbar-text">
+            <span th:if="${#request.userPrincipal}">
+                <a class="nav-link" href="/public/logout">Logout</a>
+            </span>
+            <span th:unless="${#request.userPrincipal}">
+                <a class="nav-link" href="/public/login">Login</a>
+            </span>
+        </div>
+    </div>
+</nav>
+
+    <div class="container">
+        <h1>Benvenuto!</h1>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th scope="row">Nome</th>
+                    <td th:text="${user.name}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Cognome</th>
+                    <td th:text="${user.surname}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td th:text="${user.email}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="buttons">
+            <a href="/public/login" class="btn btn-primary btn-block">Vai al Login</a>
+            <a href="/#" class="btn btn-secondary btn-block">Torna alla Home</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRpvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-q8buF/zvyxbiVezFsqf3X0m0Pq0h8JHLCm/R/wqBZ3UJfxCAks7P9m2tWBEUO2+l"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

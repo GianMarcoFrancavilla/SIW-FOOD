@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SiwFood - Homepage</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 160px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            padding: 20px;
+            border: solid #4b4b4b 2px;
+            border-radius: 8px;
+            background-color: #fff;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 17px 15px 21px -7px rgba(0, 0, 0, 0.75);
+        }
+
+        .container h1 {
+            color: #4b4b4b;
+            margin-bottom: 20px;
+            position: relative;
+            top: -50px;
+        }
+
+        .container .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container .buttons div {
+            margin-bottom: 10px;
+        }
+
+        .container a {
+            text-decoration: none;
+            color: #4b4b4b;
+            font-weight: bold;
+            display: inline-block;
+            padding: 15px 30px;
+            border: 1px solid #4b4b4b;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s, width 0.3s;
+            font-size: 1.2em;
+            width: 200px;
+            text-align: center;
+        }
+
+        .container a:hover {
+            background-color: rgb(182, 246, 239);
+            color: #4b4b4b;
+            width: 250px;
+        }
+
+        .card-body {
+            min-height: 200px; /* Altezza minima per uniformare */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 18rem;
+            margin: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img-top {
+            height: 200px; /* Altezza fissa per le immagini */
+            object-fit: cover; /* Ritaglia l'immagine per riempire il contenitore */
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="/#">
+        <img src="/images/logo.png" width="400" height="70" class="d-inline-block align-top" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+		<div style="margin:auto; position: absolute; right:420px;">
+        <span th:if="${#request.userPrincipal}">
+            Utente: <span th:text="${#request.userPrincipal.name}"></span>
+        </span>
+        </div>
+
+        <form action="/public/filterRecipes" method="get" class="form-inline ml-auto">
+            <input class="form-control mr-sm-2" type="text" id="name" name="name" placeholder="Cerca la tua ricetta!" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filtra</button>
+        </form>
+
+        <div class="navbar-text">
+            <span th:if="${#request.userPrincipal}">
+                <a class="nav-link" href="/public/logout">Logout</a>
+            </span>
+            <span th:unless="${#request.userPrincipal}">
+                <a class="nav-link" href="/public/login">Login</a>
+            </span>
+        </div>
+    </div>
+</nav>
+
+<div class="card-container">
+    <div class="card">
+        <img class="card-img-top" src="/images/chefs.jpg">
+        <div class="card-body">
+            <h5 class="card-title">I nostri chef</h5>
+            <p class="card-text">Qui potrai vedere gli chef che hanno condiviso le loro ricette nel nostro sito.</p>
+            <a href="/public/chefs" class="btn btn-primary">Elenco chef</a>
+        </div>
+    </div>
+    <div class="card">
+        <img class="card-img-top" src="/images/recipes.jpg">
+        <div class="card-body">
+            <h5 class="card-title">Le nostre ricette</h5>
+            <p class="card-text">Cosa prepariamo oggi? Vieni a vedere le nostre ricette!</p>
+            <a href="/public/recipes" class="btn btn-primary">Elenco ricette</a>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRpvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGaH94a4Iv6Texdr57v8Xp9t0" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIyOUxFq5bERj/tJjoE5Er/+OJrGSw3M68AMwV9" crossorigin="anonymous"></script>
+</body>
+</html>
